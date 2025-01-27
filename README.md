@@ -4,8 +4,7 @@
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
-Technical Test for Data Science position
-
+Technical Test for Data Science position by Dionicio Perez
 ## Project Organization
 
 ```
