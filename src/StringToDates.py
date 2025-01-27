@@ -18,7 +18,8 @@ class DateParser:
         """
         # Lista de patrones de diferentes formatos de fechas
         self.date_patterns = [
-            r"(\d{1,2})(?:st|nd|rd|th)?\s+([A-Za-z]+)\s+(\d{4})",  # 23rd August 2017
+            r"(\d{1,2})(?:st|nd|rd|th)?\s+([A-Za-z]+)\s+(\d{4})",  # 23rd August 2017 - 
+            r"(([A-Za-z]+)\s+\d{1,2})(?:st|nd|rd|th)?\s+(\d{4})", # August 12nd 2912
             r"(\d{1,2})/(\d{1,2})/(\d{4})",  # 12/09/2014
             r"(\d{1,2})\s+de\s+([A-Za-z]+)\s+de\s+(\d{4})"  # 29 de septiembre de 2014
         ]
@@ -27,6 +28,11 @@ class DateParser:
         self.meses_es = {
             "enero": 1, "febrero": 2, "marzo": 3, "abril": 4, "mayo": 5, "junio": 6,
             "julio": 7, "agosto": 8, "septiembre": 9, "octubre": 10, "noviembre": 11, "diciembre": 12
+        }
+                
+        self.meses_en = {
+            "january": 1, "february": 2, "march": 3, "april": 4, "may": 5, "june": 6,
+            "july": 7, "august": 8, "september": 9, "october": 10, "november": 11, "december": 12
         }
 
     def parse(self, input_string: str) -> Optional[datetime]:
@@ -39,42 +45,35 @@ class DateParser:
         Returns:
             Optional[datetime]: Objeto datetime si se encuentra una fecha válida, 
                                 None si no se encuentra una fecha válida.
-
-        Ejemplos:
-            >>> parser = DateParser()
-            >>> parser.parse("foo document 23rd August 2017")
-            datetime.datetime(2017, 8, 23, 0, 0)
-            
-            >>> parser.parse("texto texto 12/09/2014")
-            datetime.datetime(2014, 9, 12, 0, 0)
-            
-            >>> parser.parse("Bla 29 de septiembre de 2014 bla bla")
-            datetime.datetime(2014, 9, 29, 0, 0)
         """
+        
         for pattern in self.date_patterns:
             match = re.search(pattern, input_string, re.IGNORECASE)
             if match:
                 try:
-                    # Caso: 23rd August 2017
                     if pattern == self.date_patterns[0]:
                         day, month_str, year = match.groups()
-                        month = datetime.strptime(month_str, "%B").month  # Convierte el mes en inglés
+                        month = datetime.strptime(month_str, "%B").month
                         return datetime(int(year), month, int(day))
                     
-                    # Caso: 12/09/2014
-                    elif pattern == self.date_patterns[1]:
+                    elif pattern == self.date_patterns[2]:
                         day, month, year = match.groups()
                         return datetime(int(year), int(month), int(day))
                     
-                    # Caso: 29 de septiembre de 2014
-                    elif pattern == self.date_patterns[2]:
+                    elif pattern == self.date_patterns[3]:
                         day, month_str, year = match.groups()
-                        month = self.meses_es[month_str.lower()]  # Convierte el mes en español
+                        month = self.meses_es[month_str.lower()]
                         return datetime(int(year), month, int(day))
+                    
+                    elif pattern == self.date_patterns[2]:
+                        month_str, day, year = match.groups()
+                        month = datetime.strptime(month_str, "%B").month
+                        return datetime(int(year), month, int(day))
+                        
                 except ValueError:
-                    continue  # Si hay un error en la conversión, pasa al siguiente patrón
+                    continue
         
-        return None  # Si no encuentra una coincidencia válida, retorna None
+        return None
 
 
 if __name__ == "__main__":
