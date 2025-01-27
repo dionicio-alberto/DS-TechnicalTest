@@ -5,6 +5,7 @@
 </a>
 
 Technical Test for Data Science position by Dionicio Perez
+:)
 ## Project Organization
 
 ```
