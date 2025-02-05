@@ -2,9 +2,9 @@
 # GLOBALS                                                                       #
 #################################################################################
 
-PROJECT_NAME = datascience_technical_test
-PYTHON_VERSION = 3.10
-PYTHON_INTERPRETER = python310
+PROJECT_NAME = datascience_technical_test_37
+PYTHON_VERSION = 3.7
+PYTHON_INTERPRETER = python
 
 #################################################################################
 # COMMANDS                                                                      #
