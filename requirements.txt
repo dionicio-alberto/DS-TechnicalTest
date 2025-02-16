@@ -6,6 +6,8 @@ jupyterlab
 matplotlib
 notebook
 numpy
+seaborn
+pyspark
 pandas
 pip
 python-dotenv
